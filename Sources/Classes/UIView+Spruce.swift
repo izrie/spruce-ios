@@ -35,6 +35,11 @@ public extension UIView {
     }
     
     /// Access to all of the Spruce library animations. Use this to call functions such as `.animate` or `.prepare`
+    public func spruce(delegate: SpruceDelegate) -> Spruce {
+        return Spruce(view: self, delegate: delegate)
+    }
+    
+    /// Access to all of the Spruce library animations. Use this to call functions such as `.animate` or `.prepare`
     public var 🌲: Spruce {
         return spruce
     }

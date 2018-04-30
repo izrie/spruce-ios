@@ -51,13 +51,38 @@ public protocol SortFunction {
     ///
     /// - Parameters:
     ///   - view: the view whose subviews should be animated. This view should not be included in the returned array
+    ///   - delegate: the delegate to ask how to spruce the given view.
+    /// - Returns: an array of `TimedView`'s which contain references to the view needed to be animated and the time offset for when the animation of that individual view should start relative to the start of the overall animation
+    func timeOffsets(view: UIView, delegate: SpruceDelegate?) -> [TimedView]
+
+    /// Given a view, view sort the subviews in a way that matches the desired specification of the `SortFunction`. In an example case, if you wanted a radial sort function then this method would return an array of the subviews such that their time offets would be smaller near the center of the view and grow as they get further from the center point.
+    ///
+    /// - Parameters:
+    ///   - view: the view whose subviews should be animated. This view should not be included in the returned array
     ///   - recursiveDepth: an int describing how deep into the view hiearchy the subview search should go, defaults to 0. A value of 0 is the same as calling the `subviews` on the actual view itself. Therefore a depth of 1 will be getting the subviews of each of the subviews, etc...
     /// - Returns: an array of `TimedView`'s which contain references to the view needed to be animated and the time offset for when the animation of that individual view should start relative to the start of the overall animation
     func timeOffsets(view: UIView, recursiveDepth: Int) -> [TimedView]
+    
+    /// Given a view, view sort the subviews in a way that matches the desired specification of the `SortFunction`. In an example case, if you wanted a radial sort function then this method would return an array of the subviews such that their time offets would be smaller near the center of the view and grow as they get further from the center point.
+    ///
+    /// - Parameters:
+    ///   - view: the view whose subviews should be animated. This view should not be included in the returned array
+    ///   - recursiveDepth: an int describing how deep into the view hiearchy the subview search should go, defaults to 0. A value of 0 is the same as calling the `subviews` on the actual view itself. Therefore a depth of 1 will be getting the subviews of each of the subviews, etc...
+    ///   - delegate: the delegate to ask how to spruce the given view.
+    /// - Returns: an array of `TimedView`'s which contain references to the view needed to be animated and the time offset for when the animation of that individual view should start relative to the start of the overall animation
+    func timeOffsets(view: UIView, recursiveDepth: Int, delegate: SpruceDelegate?) -> [TimedView]
 }
 
 public extension SortFunction {
     func timeOffsets(view: UIView) -> [TimedView] {
-        return timeOffsets(view: view, recursiveDepth: 0)
+        return timeOffsets(view: view, recursiveDepth: 0, delegate: nil)
+    }
+    
+    func timeOffsets(view: UIView, delegate: SpruceDelegate?) -> [TimedView] {
+        return timeOffsets(view: view, recursiveDepth: 0, delegate: delegate)
+    }
+    
+    func timeOffsets(view: UIView, recursiveDepth: Int) -> [TimedView] {
+        return timeOffsets(view: view, recursiveDepth: 0, delegate: nil)
     }
 }

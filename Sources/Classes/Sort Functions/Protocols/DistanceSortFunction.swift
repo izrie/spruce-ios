@@ -69,8 +69,8 @@ public extension DistanceSortFunction {
     ///   - view: the view whose subviews should be animated. This view should not be included in the returned array
     ///   - recursiveDepth: an int describing how deep into the view hiearchy the subview search should go, defaults to 0. A value of 0 is the same as calling the `subviews` on the actual view itself. Therefore a depth of 1 will be getting the subviews of each of the subviews, etc...
     /// - Returns: an array of `TimedView`'s which contain references to the view needed to be animated and the time offset for when the animation of that individual view should start relative to the start of the overall animation
-    func timeOffsets(view: UIView, recursiveDepth: Int) -> [TimedView] {
-        let subviews = view.spruce.subviews(withRecursiveDepth: recursiveDepth)
+    func timeOffsets(view: UIView, recursiveDepth: Int, delegate: SpruceDelegate?) -> [TimedView] {
+        let subviews = (delegate != nil ? view.spruce(delegate: delegate!) : view.spruce).subviews(withRecursiveDepth: recursiveDepth)
         let comparisonPoint = distancePoint(view: view, subviews: subviews)
         
         let distancedViews = subviews.map {

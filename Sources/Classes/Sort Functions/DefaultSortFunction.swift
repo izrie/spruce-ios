@@ -39,10 +39,10 @@ public struct DefaultSortFunction: SortFunction {
         self.interObjectDelay = interObjectDelay
     }
     
-    public func timeOffsets(view: UIView, recursiveDepth: Int) -> [TimedView] {
+    public func timeOffsets(view: UIView, recursiveDepth: Int, delegate: SpruceDelegate?) -> [TimedView] {
         var timedViews: [TimedView] = []
         var currentTimeOffset: TimeInterval = 0.0
-        let subviews = view.spruce.subviews(withRecursiveDepth: recursiveDepth)
+        let subviews = (delegate != nil ? view.spruce(delegate: delegate!) : view.spruce).subviews(withRecursiveDepth: recursiveDepth)
         for subView in subviews {
             let timedView = TimedView(spruceView: subView, timeOffset: currentTimeOffset)
             timedViews.append(timedView)

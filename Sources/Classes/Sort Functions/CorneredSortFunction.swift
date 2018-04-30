@@ -38,9 +38,9 @@ public struct CorneredSortFunction: CornerSortFunction {
         self.interObjectDelay = interObjectDelay
     }
     
-    public func timeOffsets(view: UIView, recursiveDepth: Int) -> [TimedView] {
+    public func timeOffsets(view: UIView, recursiveDepth: Int, delegate: SpruceDelegate?) -> [TimedView] {
         let comparisonPoint = distancePoint(view: view)
-        let subviews = view.spruce.subviews(withRecursiveDepth: recursiveDepth)
+        let subviews = (delegate != nil ? view.spruce(delegate: delegate!) : view.spruce).subviews(withRecursiveDepth: recursiveDepth)
         
         let distancedViews = subviews.map {
             return (view: $0, distance: abs(comparisonPoint.x - $0.referencePoint.x) + abs(comparisonPoint.y - $0.referencePoint.y))

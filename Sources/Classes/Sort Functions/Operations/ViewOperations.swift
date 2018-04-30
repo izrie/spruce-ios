@@ -47,13 +47,18 @@ public extension Spruce {
         let subviews: [UIView]
         
         // Handle special cases for UITableView and UICollectionView
-        switch self.view {
-        case let tableView as UITableView:
-            subviews = tableView.visibleCells
-        case let collectionView as UICollectionView:
-            subviews = collectionView.visibleCells
-        default:
-            subviews = self.view.subviews
+        if let s = delegate?.subviewsToSpruce(in: self.view) {
+            subviews = s
+        }
+        else {
+            switch self.view {
+            case let tableView as UITableView:
+                subviews = tableView.visibleCells
+            case let collectionView as UICollectionView:
+                subviews = collectionView.visibleCells
+            default:
+                subviews = self.view.subviews
+            }
         }
         
         guard recursiveDepth > 0 || recursiveDepth == .max else {

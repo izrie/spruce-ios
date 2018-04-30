@@ -32,9 +32,16 @@ public struct Spruce {
     /// Internal housing of a `UIView` so that we do not conflict with namespaces
     internal let view: UIView
     
-    internal init(view: UIView) {
+    internal weak var delegate: SpruceDelegate? = nil
+    
+    internal init(view: UIView, delegate: SpruceDelegate? = nil) {
         self.view = view
+        self.delegate = delegate
     }
+}
+
+public protocol SpruceDelegate: NSObjectProtocol {
+    func subviewsToSpruce(in containerView: UIView) -> [UIView]?
 }
 
 /// Used to keep track of the `UIView` object and a changing reference point. Since Spruce allows for

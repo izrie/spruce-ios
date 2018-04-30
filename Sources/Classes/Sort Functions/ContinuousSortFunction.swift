@@ -41,8 +41,8 @@ public struct ContinuousSortFunction: PositionSortFunction {
         self.position = position
     }
 
-    public func timeOffsets(view: UIView, recursiveDepth: Int) -> [TimedView] {
-        let subviews = view.spruce.subviews(withRecursiveDepth: recursiveDepth)
+    public func timeOffsets(view: UIView, recursiveDepth: Int, delegate: SpruceDelegate?) -> [TimedView] {
+        let subviews = (delegate != nil ? view.spruce(delegate: delegate!) : view.spruce).subviews(withRecursiveDepth: recursiveDepth)
         let comparisonPoint = distancePoint(view: view, subviews: subviews)
 
         let distancedViews = subviews.map {
